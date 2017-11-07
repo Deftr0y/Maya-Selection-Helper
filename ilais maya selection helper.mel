@@ -1,0 +1,44 @@
+
+	// create a window
+	window;
+
+		// define the layout of controls added 
+		// to the window.
+		columnLayout;
+
+			// create some text
+			text -label "Ilai Awesome Selection Helper";
+
+			
+			//step size
+					intSliderGrp -label "Step Size" -field true -minValue 2 -maxValue 100 -value 2 selectionHelper_stepSize;
+			//offset
+			        intSliderGrp -label "Offset" -field true -minValue 0 -maxValue 100 -value 0 selectionHelper_offset;
+
+			
+			
+			// create a button
+			button -label "Run" -command "run";
+
+	// show the window we last created
+	showWindow;
+	
+	//run tool
+	proc run() {
+		//list all selected object and flatten into an array
+            string $faces[] = `ls -sl -fl`;
+
+        //size of loop jumps
+        int $stepSize = `intSliderGrp -q -value selectionHelper_stepSize`;
+
+        //set a delay for the loop
+        int $offset = `intSliderGrp -q -value selectionHelper_offset`;
+
+        
+
+        for($i=$offset;$i<size($faces);$i+=$stepSize){
+            //create temp object from string in array and tagle it to deselect
+            $newObject = $faces[$i];
+            select -tgl $newObject ;
+        }
+	}
